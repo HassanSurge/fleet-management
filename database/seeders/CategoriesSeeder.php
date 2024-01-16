@@ -13,7 +13,7 @@ class CategoriesSeeder extends Seeder
      */
     public function run(): void
     {
-        $validCategories = new Collection(['Small', 'Mid-sized', 'SUV', "Motorcycles"]);
+        $validCategories = new Collection(['Small', 'Mid-sized', 'SUV', 'Motorcycles']);
 
 
         $categories = $validCategories->map(function (string $category, $index) {
