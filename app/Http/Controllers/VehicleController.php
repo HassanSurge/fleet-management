@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreVehicleRequest;
+use App\Http\Requests\UpdateVehicleRequest;
 use App\Models\Vehicle;
 use Illuminate\Http\Request;
 use Spatie\QueryBuilder\QueryBuilder;
@@ -22,24 +24,12 @@ class VehicleController extends Controller
         return response()->json($vehicles);
     }
 
-    private function validateVehicle()
-    {
-        return [
-            'daily_rate' => 'required|integer|min:2|max:100',
-            'model' => 'required|string|min:5|max:255',
-            'category_id' => 'required|exists:categories,id',
-            'make_id' => 'required|exists:makes,id'
-        ];
-    }
-
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreVehicleRequest $request)
     {
         $data = $request->only(['daily_rate', 'model', 'category_id', 'make_id']);
-
-        $this->validate($request, $this->validateVehicle());
 
         $result = Vehicle::create($data);
 
@@ -57,11 +47,9 @@ class VehicleController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Vehicle $vehicle)
+    public function update(UpdateVehicleRequest $request, Vehicle $vehicle)
     {
         $data = $request->only(['daily_rate', 'model', 'category_id', 'make_id']);
-
-        $this->validate($request, $this->validateVehicle());
 
         $vehicle->update($data);
 
@@ -74,6 +62,7 @@ class VehicleController extends Controller
     public function destroy(Vehicle $vehicle)
     {
         $vehicle->delete();
+
         return response()->json($vehicle);
     }
 }
