@@ -14,7 +14,7 @@ class UpdateVehicleRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'daily_rate' => 'required|integer|min:2|max:100',
+            'daily_rate' => 'required|decimal:0,2|min:2|max:100',
             'model' => 'required|string|min:5|max:255',
             'category_id' => 'required|exists:categories,id',
             'make_id' => 'required|exists:makes,id'
