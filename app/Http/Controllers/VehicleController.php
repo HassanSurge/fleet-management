@@ -4,15 +4,23 @@ namespace App\Http\Controllers;
 
 use App\Models\Vehicle;
 use Illuminate\Http\Request;
+use Spatie\QueryBuilder\AllowedFilter;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class VehicleController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        return response()->json(Vehicle::all());
+        $vehicles = QueryBuilder::for(Vehicle::class)
+            ->allowedIncludes(['make', 'category'])
+            ->allowedSorts(['id', 'model'])
+            ->allowedFilters(['model', 'make.name', 'category.name'])
+            ->paginate($request->get('paginate', 5));
+
+        return response()->json($vehicles);
     }
 
     private function validateVehicle()
