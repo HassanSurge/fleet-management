@@ -10,6 +10,11 @@ use Spatie\QueryBuilder\QueryBuilder;
 
 class VehicleController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(Vehicle::class, 'vehicle');
+    }
+
     /**
      * Display a listing of the resource.
      */
