@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\TwoWordText;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreVehicleRequest extends FormRequest
@@ -15,7 +16,7 @@ class StoreVehicleRequest extends FormRequest
     {
         return [
             'daily_rate' => 'required|decimal:0,2|min:2|max:100',
-            'model' => 'required|string|min:5|max:255',
+            'model' => ['required', 'string', 'min:5', 'max:255', new TwoWordText()],
             'category_id' => 'required|exists:categories,id',
             'make_id' => 'required|exists:makes,id'
         ];
